@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('role_id')->index();
             $table->foreign('role_id')->references('id')->on('roles');
             $table->tinyInteger('value');
+            $table->timestamp('expires')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
