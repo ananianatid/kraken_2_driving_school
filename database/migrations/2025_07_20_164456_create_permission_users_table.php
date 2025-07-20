@@ -11,19 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
         Schema::create('permission_users', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->index();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('permission_id')->index();
-            $table->foreign('permission_id')->references('id')->on('permissions');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('permission_id')->constrained('permissions')->onDelete('cascade');
             $table->tinyInteger('value');
             $table->timestamp('expires')->nullable();
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
     }
+
 
     /**
      * Reverse the migrations.
