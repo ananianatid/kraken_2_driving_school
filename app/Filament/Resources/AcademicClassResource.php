@@ -18,6 +18,8 @@ class AcademicClassResource extends Resource
     protected static ?string $model = AcademicClass::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Gestion academique';
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {

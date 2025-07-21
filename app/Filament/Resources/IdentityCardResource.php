@@ -18,6 +18,7 @@ class IdentityCardResource extends Resource
     protected static ?string $model = IdentityCard::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Gestion utlisateur';
 
     public static function form(Form $form): Form
     {

@@ -18,6 +18,8 @@ class AdministratorResource extends Resource
     protected static ?string $model = Administrator::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Gestion utlisateur';
+
 
     public static function form(Form $form): Form
     {
