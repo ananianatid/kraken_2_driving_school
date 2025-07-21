@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('presences', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('course_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('student_id')->constrained()->cascadeOnDelete();
+            $table->enum('status',['present','absent','en_retard']);
+            $table->string('justification');
+            $table->string('justification_url');
             $table->timestamps();
         });
     }
