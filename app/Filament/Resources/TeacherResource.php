@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PermissionResource\Pages;
-use App\Filament\Resources\PermissionResource\RelationManagers;
-use App\Models\Permission;
+use App\Filament\Resources\TeacherResource\Pages;
+use App\Filament\Resources\TeacherResource\RelationManagers;
+use App\Models\Teacher;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PermissionResource extends Resource
+class TeacherResource extends Resource
 {
-    protected static ?string $model = Permission::class;
+    protected static ?string $model = Teacher::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,10 +23,13 @@ class PermissionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('specialty')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('readable_name')
+                Forms\Components\TextInput::make('user_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('profile_picture')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -36,9 +39,12 @@ class PermissionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('specialty')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('readable_name')
+                Tables\Columns\TextColumn::make('user_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('profile_picture')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -73,10 +79,10 @@ class PermissionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPermissions::route('/'),
-            'create' => Pages\CreatePermission::route('/create'),
-            'view' => Pages\ViewPermission::route('/{record}'),
-            'edit' => Pages\EditPermission::route('/{record}/edit'),
+            'index' => Pages\ListTeachers::route('/'),
+            'create' => Pages\CreateTeacher::route('/create'),
+            'view' => Pages\ViewTeacher::route('/{record}'),
+            'edit' => Pages\EditTeacher::route('/{record}/edit'),
         ];
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\RoleUserResource\Pages;
-use App\Filament\Resources\RoleUserResource\RelationManagers;
-use App\Models\RoleUser;
+use App\Filament\Resources\CourseResource\Pages;
+use App\Filament\Resources\CourseResource\RelationManagers;
+use App\Models\Course;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class RoleUserResource extends Resource
+class CourseResource extends Resource
 {
-    protected static ?string $model = RoleUser::class;
+    protected static ?string $model = Course::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,10 +23,21 @@ class RoleUserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\TextInput::make('class_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('role_id')
+                Forms\Components\TextInput::make('lesson_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('teacher_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('vehicule_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\DatePicker::make('date')
+                    ->required(),
+                Forms\Components\TextInput::make('duration_minutes')
                     ->required()
                     ->numeric(),
             ]);
@@ -36,10 +47,22 @@ class RoleUserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
+                Tables\Columns\TextColumn::make('class_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('role_id')
+                Tables\Columns\TextColumn::make('lesson_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('teacher_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('vehicule_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('date')
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('duration_minutes')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -75,10 +98,10 @@ class RoleUserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListRoleUsers::route('/'),
-            'create' => Pages\CreateRoleUser::route('/create'),
-            'view' => Pages\ViewRoleUser::route('/{record}'),
-            'edit' => Pages\EditRoleUser::route('/{record}/edit'),
+            'index' => Pages\ListCourses::route('/'),
+            'create' => Pages\CreateCourse::route('/create'),
+            'view' => Pages\ViewCourse::route('/{record}'),
+            'edit' => Pages\EditCourse::route('/{record}/edit'),
         ];
     }
 }

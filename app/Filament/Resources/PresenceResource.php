@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PermissionResource\Pages;
-use App\Filament\Resources\PermissionResource\RelationManagers;
-use App\Models\Permission;
+use App\Filament\Resources\PresenceResource\Pages;
+use App\Filament\Resources\PresenceResource\RelationManagers;
+use App\Models\Presence;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PermissionResource extends Resource
+class PresenceResource extends Resource
 {
-    protected static ?string $model = Permission::class;
+    protected static ?string $model = Presence::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,10 +23,18 @@ class PermissionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('course_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('student_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('status')
+                    ->required(),
+                Forms\Components\TextInput::make('justification')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('readable_name')
+                Forms\Components\TextInput::make('justification_url')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -36,9 +44,16 @@ class PermissionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('course_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('student_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status'),
+                Tables\Columns\TextColumn::make('justification')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('readable_name')
+                Tables\Columns\TextColumn::make('justification_url')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -73,10 +88,10 @@ class PermissionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPermissions::route('/'),
-            'create' => Pages\CreatePermission::route('/create'),
-            'view' => Pages\ViewPermission::route('/{record}'),
-            'edit' => Pages\EditPermission::route('/{record}/edit'),
+            'index' => Pages\ListPresences::route('/'),
+            'create' => Pages\CreatePresence::route('/create'),
+            'view' => Pages\ViewPresence::route('/{record}'),
+            'edit' => Pages\EditPresence::route('/{record}/edit'),
         ];
     }
 }

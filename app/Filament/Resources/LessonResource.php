@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PermissionResource\Pages;
-use App\Filament\Resources\PermissionResource\RelationManagers;
-use App\Models\Permission;
+use App\Filament\Resources\LessonResource\Pages;
+use App\Filament\Resources\LessonResource\RelationManagers;
+use App\Models\Lesson;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PermissionResource extends Resource
+class LessonResource extends Resource
 {
-    protected static ?string $model = Permission::class;
+    protected static ?string $model = Lesson::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,12 +23,14 @@ class PermissionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('readable_name')
+                Forms\Components\Textarea::make('content')
                     ->required()
-                    ->maxLength(255),
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('type')
+                    ->required(),
             ]);
     }
 
@@ -36,10 +38,9 @@ class PermissionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('readable_name')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -73,10 +74,10 @@ class PermissionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPermissions::route('/'),
-            'create' => Pages\CreatePermission::route('/create'),
-            'view' => Pages\ViewPermission::route('/{record}'),
-            'edit' => Pages\EditPermission::route('/{record}/edit'),
+            'index' => Pages\ListLessons::route('/'),
+            'create' => Pages\CreateLesson::route('/create'),
+            'view' => Pages\ViewLesson::route('/{record}'),
+            'edit' => Pages\EditLesson::route('/{record}/edit'),
         ];
     }
 }

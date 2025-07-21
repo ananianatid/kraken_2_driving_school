@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PermissionResource\Pages;
-use App\Filament\Resources\PermissionResource\RelationManagers;
-use App\Models\Permission;
+use App\Filament\Resources\ResultResource\Pages;
+use App\Filament\Resources\ResultResource\RelationManagers;
+use App\Models\Result;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PermissionResource extends Resource
+class ResultResource extends Resource
 {
-    protected static ?string $model = Permission::class;
+    protected static ?string $model = Result::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,10 +23,19 @@ class PermissionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('exam_id')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('readable_name')
+                    ->numeric(),
+                Forms\Components\TextInput::make('student_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('lesson_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('grade')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('comment')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -36,9 +45,19 @@ class PermissionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('readable_name')
+                Tables\Columns\TextColumn::make('exam_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('student_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('lesson_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('grade')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('comment')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -73,10 +92,10 @@ class PermissionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPermissions::route('/'),
-            'create' => Pages\CreatePermission::route('/create'),
-            'view' => Pages\ViewPermission::route('/{record}'),
-            'edit' => Pages\EditPermission::route('/{record}/edit'),
+            'index' => Pages\ListResults::route('/'),
+            'create' => Pages\CreateResult::route('/create'),
+            'view' => Pages\ViewResult::route('/{record}'),
+            'edit' => Pages\EditResult::route('/{record}/edit'),
         ];
     }
 }
