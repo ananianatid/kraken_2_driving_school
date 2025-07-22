@@ -18,14 +18,17 @@ class ExamsResource extends Resource
     protected static ?string $model = Exams::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Done';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('academic_class_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('academic_class_id')
+                    ->label('Classe académique')
+                    ->relationship('academicClass', 'name')
+                    ->searchable()
+                    ->required(),
                 Forms\Components\DatePicker::make('start_date')
                     ->required(),
                 Forms\Components\DatePicker::make('end_date')
@@ -37,8 +40,9 @@ class ExamsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('academic_class_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('academicClass.name')
+                    ->label('Classe académique')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('start_date')
                     ->date()

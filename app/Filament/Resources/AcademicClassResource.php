@@ -18,6 +18,7 @@ class AcademicClassResource extends Resource
     protected static ?string $model = AcademicClass::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Done';
 
     public static function form(Form $form): Form
     {
@@ -80,12 +81,12 @@ class AcademicClassResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('period_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('licence_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('period.name')
+                    ->label('Période')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('licence.name')
+                    ->label('Licence')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

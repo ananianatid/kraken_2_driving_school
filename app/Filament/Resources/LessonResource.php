@@ -18,7 +18,8 @@ class LessonResource extends Resource
     protected static ?string $model = Lesson::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationGroup = 'Done';
+    
     public static function form(Form $form): Form
     {
         return $form
@@ -29,7 +30,12 @@ class LessonResource extends Resource
                 Forms\Components\Textarea::make('content')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('type')
+                Forms\Components\Select::make('type')
+                    ->label('Type de leçon')
+                    ->options([
+                        'theorie' => 'Théorie',
+                        'pratique' => 'Pratique',
+                    ])
                     ->required(),
             ]);
     }
