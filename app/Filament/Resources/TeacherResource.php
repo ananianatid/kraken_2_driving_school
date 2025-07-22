@@ -18,7 +18,6 @@ class TeacherResource extends Resource
     protected static ?string $model = Teacher::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Gestion utlisateur';
 
     public static function form(Form $form): Form
     {
@@ -26,13 +25,13 @@ class TeacherResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('specialty')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(191),
                 Forms\Components\TextInput::make('user_id')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('profile_picture')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(191),
             ]);
     }
 

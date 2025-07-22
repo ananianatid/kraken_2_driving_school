@@ -18,8 +18,6 @@ class AcademicClassResource extends Resource
     protected static ?string $model = AcademicClass::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Gestion academique';
-    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -27,21 +25,13 @@ class AcademicClassResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('period_id')
-                    ->label('period' )
-                    ->relationship(name: 'period', titleAttribute: 'year')
-                    ->live()
+                    ->maxLength(191),
+                Forms\Components\TextInput::make('period_id')
                     ->required()
-                    ->preload()
-                    ->searchable(),
-                Forms\Components\Select::make('licence_id')
-                    ->label('licence' )
-                    ->relationship(name: 'licence', titleAttribute: 'name')
-                    ->live()
+                    ->numeric(),
+                Forms\Components\TextInput::make('licence_id')
                     ->required()
-                    ->preload()
-                    ->searchable(),
+                    ->numeric(),
             ]);
     }
 

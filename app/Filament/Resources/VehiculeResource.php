@@ -18,8 +18,6 @@ class VehiculeResource extends Resource
     protected static ?string $model = Vehicule::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Gestion academique';
-    protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
     {
@@ -27,25 +25,15 @@ class VehiculeResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(191),
                 Forms\Components\TextInput::make('licence_plate')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('license_id')
-                    ->label('license' )
-                    ->relationship(name: 'license', titleAttribute: 'name')
-                    ->live()
+                    ->maxLength(191),
+                Forms\Components\TextInput::make('license_id')
                     ->required()
-                    ->preload()
-                    ->searchable(),
-                Forms\Components\Select::make('status')
-                ->label('Statut')
-                ->options([
-                    'disponible' => 'Disponible',
-                    'occupe' => 'Occupé',
-                ])
-                ->required()
-                ->native(false),
+                    ->numeric(),
+                Forms\Components\TextInput::make('status')
+                    ->required(),
             ]);
     }
 

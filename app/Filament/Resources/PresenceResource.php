@@ -18,8 +18,6 @@ class PresenceResource extends Resource
     protected static ?string $model = Presence::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Gestion academique';
-    protected static ?int $navigationSort = 7;
 
     public static function form(Form $form): Form
     {
@@ -35,10 +33,10 @@ class PresenceResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('justification')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(191),
                 Forms\Components\TextInput::make('justification_url')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(191),
             ]);
     }
 

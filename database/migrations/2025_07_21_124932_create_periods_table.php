@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('periods', function (Blueprint $table) {
             $table->id();
-            $table->string('year')->index()->comment('Ex: 2025');
-            $table->date('start_month')->comment('1 = janvier');
-            $table->date('end_month')->comment('12 = décembre');
+            $table->string('name')->index();
+            $table->date('start_month');
+            $table->date('end_month');
             $table->timestamps();
         });
     }

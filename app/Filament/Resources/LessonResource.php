@@ -18,8 +18,6 @@ class LessonResource extends Resource
     protected static ?string $model = Lesson::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Gestion academique';
-    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -27,19 +25,12 @@ class LessonResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('title')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(191),
                 Forms\Components\Textarea::make('content')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\Select::make('type')
-                    ->label('Type de cours')
-                    ->options([
-                        'theorie' => 'theorie',
-                        'pratique' => 'pratique',
-                    ])
-                    ->required()
-                    ->native(false) // rend le select plus stylé avec Filament
-
+                Forms\Components\TextInput::make('type')
+                    ->required(),
             ]);
     }
 

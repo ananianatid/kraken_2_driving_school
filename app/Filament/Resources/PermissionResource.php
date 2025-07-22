@@ -18,7 +18,6 @@ class PermissionResource extends Resource
     protected static ?string $model = Permission::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Gestion des permissions';
 
     public static function form(Form $form): Form
     {
@@ -26,10 +25,10 @@ class PermissionResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(191),
                 Forms\Components\TextInput::make('readable_name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(191),
             ]);
     }
 

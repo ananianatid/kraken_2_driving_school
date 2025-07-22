@@ -18,16 +18,14 @@ class PeriodResource extends Resource
     protected static ?string $model = Period::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Gestion academique';
-    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('year')
+                Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(191),
                 Forms\Components\DatePicker::make('start_month')
                     ->required(),
                 Forms\Components\DatePicker::make('end_month')
@@ -39,7 +37,7 @@ class PeriodResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('year')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('start_month')
                     ->date()
