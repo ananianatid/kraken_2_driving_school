@@ -24,14 +24,53 @@ class AcademicClassResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Nom de la classe')
+                    ->disabled()
+                    ->dehydrated(),
+                Forms\Components\Select::make('period_id')
+                    ->label('Période')
+                    ->relationship('period', 'name')
                     ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('period_id')
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                        $periodId = $state;
+                        $licenceId = $get('licence_id');
+                        $periodName = null;
+                        $licenceName = null;
+                        if ($periodId) {
+                            $period = \App\Models\Period::find($periodId);
+                            $periodName = $period?->name;
+                        }
+                        if ($licenceId) {
+                            $licence = \App\Models\License::find($licenceId);
+                            $licenceName = $licence?->name;
+                        }
+                        if ($periodName && $licenceName) {
+                            $set('name', $periodName . ' - ' . $licenceName);
+                        }
+                    }),
+                Forms\Components\Select::make('licence_id')
+                    ->label('Licence')
+                    ->relationship('licence', 'name')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('licence_id')
-                    ->required()
-                    ->numeric(),
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                        $periodId = $get('period_id');
+                        $licenceId = $state;
+                        $periodName = null;
+                        $licenceName = null;
+                        if ($periodId) {
+                            $period = \App\Models\Period::find($periodId);
+                            $periodName = $period?->name;
+                        }
+                        if ($licenceId) {
+                            $licence = \App\Models\License::find($licenceId);
+                            $licenceName = $licence?->name;
+                        }
+                        if ($periodName && $licenceName) {
+                            $set('name', $periodName . ' - ' . $licenceName);
+                        }
+                    }),
             ]);
     }
 
