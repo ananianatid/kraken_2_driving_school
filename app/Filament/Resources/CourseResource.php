@@ -23,18 +23,23 @@ class CourseResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('class_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('lesson_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('teacher_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('vehicule_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('class_id')
+                    ->label('Classe')
+                    ->relationship('class', 'name')
+                    ->required(),
+                Forms\Components\Select::make('lesson_id')
+                    ->label('Leçon')
+                    ->relationship('lesson', 'title')
+                    ->required(),
+                Forms\Components\Select::make('teacher_id')
+                    ->label('Enseignant')
+                    ->options(\App\Models\Teacher::with('user')->get()->pluck('user.name', 'id'))
+                    ->searchable()
+                    ->required(),
+                Forms\Components\Select::make('vehicule_id')
+                    ->label('Véhicule')
+                    ->relationship('vehicule', 'name')
+                    ->required(),
                 Forms\Components\DatePicker::make('date')
                     ->required(),
                 Forms\Components\TextInput::make('duration_minutes')
@@ -47,17 +52,17 @@ class CourseResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('class_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('class.name')
+                    ->label('Classe')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('lesson_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('lesson.title')
+                    ->label('Leçon')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('teacher_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('teacher.user.name')
+                    ->label('Enseignant')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('vehicule_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('vehicule.name')
+                    ->label('Véhicule')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('date')
                     ->date()
