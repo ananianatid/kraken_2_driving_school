@@ -29,10 +29,16 @@ class VehiculeResource extends Resource
                 Forms\Components\TextInput::make('licence_plate')
                     ->required()
                     ->maxLength(191),
-                Forms\Components\TextInput::make('license_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('status')
+                Forms\Components\Select::make('license_id')
+                    ->label('Licence')
+                    ->relationship('license', 'name')
+                    ->required(),
+                Forms\Components\Select::make('status')
+                    ->label('Statut')
+                    ->options([
+                        'disponible' => 'Disponible',
+                        'occupe' => 'Occupé',
+                    ])
                     ->required(),
             ]);
     }
@@ -45,9 +51,9 @@ class VehiculeResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('licence_plate')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('license_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('license.name')
+                    ->label('Licence')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
