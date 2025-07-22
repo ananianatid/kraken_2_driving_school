@@ -18,20 +18,24 @@ class ResultResource extends Resource
     protected static ?string $model = Result::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationGroup = 'Done';
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('exam_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('student_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('lesson_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('exam_id')
+                    ->label('Examen')
+                    ->relationship('exam', 'start_date')
+                    ->required(),
+                Forms\Components\Select::make('student_id')
+                    ->label('Élève')
+                    ->options(\App\Models\Student::with('user')->get()->pluck('user.name', 'id'))
+                    ->searchable()
+                    ->required(),
+                Forms\Components\Select::make('lesson_id')
+                    ->label('Leçon')
+                    ->relationship('lesson', 'title')
+                    ->required(),
                 Forms\Components\TextInput::make('grade')
                     ->required()
                     ->numeric(),
@@ -45,14 +49,14 @@ class ResultResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('exam_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('exam.start_date')
+                    ->label('Examen')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('student_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('student.user.name')
+                    ->label('Élève')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('lesson_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('lesson.title')
+                    ->label('Leçon')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('grade')
                     ->numeric()

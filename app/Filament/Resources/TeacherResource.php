@@ -18,7 +18,7 @@ class TeacherResource extends Resource
     protected static ?string $model = Teacher::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationGroup = 'Done';
     public static function form(Form $form): Form
     {
         return $form
@@ -26,12 +26,15 @@ class TeacherResource extends Resource
                 Forms\Components\TextInput::make('specialty')
                     ->required()
                     ->maxLength(191),
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('profile_picture')
-                    ->required()
-                    ->maxLength(191),
+                Forms\Components\Select::make('user_id')
+                    ->label('Utilisateur')
+                    ->relationship('user', 'name')
+                    ->required(),
+                Forms\Components\FileUpload::make('profile_picture')
+                    ->label('Photo de profil')
+                    ->image()
+                    ->directory('profile_pictures')
+                    ->required(),
             ]);
     }
 
@@ -41,10 +44,13 @@ class TeacherResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('specialty')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Utilisateur')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('profile_picture')
+                    ->label('Photo de profil')
+                    ->url(fn($record) => $record->profile_picture ? asset('storage/' . $record->profile_picture) : null)
+                    ->openUrlInNewTab()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
