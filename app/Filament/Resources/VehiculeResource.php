@@ -31,11 +31,21 @@ class VehiculeResource extends Resource
                 Forms\Components\TextInput::make('licence_plate')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('license_id')
+                Forms\Components\Select::make('license_id')
+                    ->label('license' )
+                    ->relationship(name: 'license', titleAttribute: 'name')
+                    ->live()
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('status')
-                    ->required(),
+                    ->preload()
+                    ->searchable(),
+                Forms\Components\Select::make('status')
+                ->label('Statut')
+                ->options([
+                    'disponible' => 'Disponible',
+                    'occupe' => 'Occupé',
+                ])
+                ->required()
+                ->native(false),
             ]);
     }
 

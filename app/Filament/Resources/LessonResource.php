@@ -31,8 +31,15 @@ class LessonResource extends Resource
                 Forms\Components\Textarea::make('content')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('type')
-                    ->required(),
+                Forms\Components\Select::make('type')
+                    ->label('Type de cours')
+                    ->options([
+                        'theorie' => 'theorie',
+                        'pratique' => 'pratique',
+                    ])
+                    ->required()
+                    ->native(false) // rend le select plus stylé avec Filament
+
             ]);
     }
 

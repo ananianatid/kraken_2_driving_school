@@ -28,12 +28,20 @@ class AcademicClassResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('period_id')
+                Forms\Components\Select::make('period_id')
+                    ->label('period' )
+                    ->relationship(name: 'period', titleAttribute: 'year')
+                    ->live()
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('licence_id')
+                    ->preload()
+                    ->searchable(),
+                Forms\Components\Select::make('licence_id')
+                    ->label('licence' )
+                    ->relationship(name: 'licence', titleAttribute: 'name')
+                    ->live()
                     ->required()
-                    ->numeric(),
+                    ->preload()
+                    ->searchable(),
             ]);
     }
 
