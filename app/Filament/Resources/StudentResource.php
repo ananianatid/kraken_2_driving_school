@@ -18,20 +18,25 @@ class StudentResource extends Resource
     protected static ?string $model = Student::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Done';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('class_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('profile_picture')
-                    ->required()
-                    ->maxLength(191),
+                Forms\Components\Select::make('class_id')
+                    ->label('Classe')
+                    ->relationship('academicClass', 'name') // à remplacer par le vrai champ nom si disponible
+                    ->required(),
+                Forms\Components\Select::make('user_id')
+                    ->label('Utilisateur')
+                    ->relationship('user', 'name')
+                    ->required(),
+                Forms\Components\FileUpload::make('profile_picture')
+                    ->label('Photo de profil')
+                    ->image()
+                    ->directory('profile_pictures')
+                    ->required(),
             ]);
     }
 
@@ -39,13 +44,16 @@ class StudentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('class_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('academicClass.id') // à remplacer par le vrai champ nom si disponible
+                    ->label('Classe')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Utilisateur')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('profile_picture')
+                    ->label('Photo de profil')
+                    ->url(fn($record) => $record->profile_picture ? asset('storage/' . $record->profile_picture) : null)
+                    ->openUrlInNewTab()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
