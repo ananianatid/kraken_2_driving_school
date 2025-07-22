@@ -24,12 +24,31 @@ class PeriodResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(191),
+                    ->label('Nom de la période')
+                    ->disabled()
+                    ->dehydrated(), // Pour que la valeur soit bien envoyée lors de la sauvegarde
                 Forms\Components\DatePicker::make('start_month')
-                    ->required(),
+                    ->label('Mois de début')
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                        $start = $state;
+                        $end = $get('end_month');
+                        if ($start && $end) {
+                            $set('name', date('Y-m', strtotime($start)) . ' - ' . date('Y-m', strtotime($end)));
+                        }
+                    }),
                 Forms\Components\DatePicker::make('end_month')
-                    ->required(),
+                    ->label('Mois de fin')
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                        $start = $get('start_month');
+                        $end = $state;
+                        if ($start && $end) {
+                            $set('name', date('Y-m', strtotime($start)) . ' - ' . date('Y-m', strtotime($end)));
+                        }
+                    }),
             ]);
     }
 
