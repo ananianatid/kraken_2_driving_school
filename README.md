@@ -1,43 +1,35 @@
-# École de Conduite 
+# Kraken 2 Driving School (v2)
 
-Ce projet est une application web développée avec le **framework Laravel** et utilisant **Filament PHP** pour l'interface d'administration. Il s'agit d'un système de gestion pour une auto-école, conçu pour faciliter la gestion des étudiants et potentiellement d'autres aspects liés à l'activité (bien que les sources fournies se concentrent principalement sur la gestion des étudiants).
+Application web de gestion d'auto-cole (version 2 / reecriture de driving_school). Gere les eleves, permis, cartes d'identite, periodes, resultats et presence via un tableau de bord Filament.
 
-## Installation et Utilisation
+## Stack technique
 
-Pour configurer et lancer le projet sur votre machine après avoir cloné le dépôt Git, suivez les étapes ci-dessous :
+- PHP 8.2+
+- Laravel 12
+- Filament PHP 3 (admin panel)
+- Tailwind CSS 4 / Vite
 
-### 1. Cloner le dépôt
+## Etat d'avancement
 
-Commencez par cloner le dépôt Git sur votre machine locale :
+MVP -- structure de ressources comprehensive en place.
+
+## Installation
+
 ```bash
-git clone https://github.com/ananianatid/kraken_2_driving_school.git
-cd ananianatid-kraken_2_driving_school.git
-```
-
-### 2. Installer les dépendances PHP
-
-Le projet utilise Composer pour gérer ses dépendances PHP. Installez-les en exécutant la commande suivante :
-```bash
-composer update
 composer install
-```
-Cette commande installera les dépendances nécessaires au projet, y compris Laravel, Filament, et d'autres bibliothèques. Elle exécutera également des scripts post-installation importants.
-
-### 3. Configurer l'environnement
-
-Laravel nécessite un fichier d'environnement (`.env`) pour stocker les configurations spécifiques à votre installation (base de données, clés d'API, etc.). Un exemple de fichier est fourni :
-```bash
 cp .env.example .env
-```
-Ensuite, générez une clé d'application unique pour Laravel :
-```bash
 php artisan key:generate
+php artisan migrate
+php artisan db:seed
+npm install
 ```
 
-### 4. Configurer et Migrer la Base de Données
+## Demarrage
 
-Ce projet est configuré pour utiliser une base de données, potentiellement SQLite par défaut, mais vous pouvez le modifier dans votre fichier `.env` si vous préférez MySQL, PostgreSQL, etc..
-Pour créer les tables de la base de données et les structures nécessaires, exécutez les migrations :
+```bash
+npm run dev &
+php artisan serve
+```
 ```bash
 php artisan migrate --graceful
 ```
